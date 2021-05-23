@@ -547,5 +547,5 @@ fi
 
 ## 清除配置缓存
 [ -f ${FileConftemp} ] && rm -rf ${FileConftemp}
-
+cp -rf ${Scripts2Dir}/sendNotify.js ${ScriptsDir}/sendNotify.js
 echo -e "脚本目录：${ShellDir}"
