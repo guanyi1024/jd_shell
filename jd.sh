@@ -133,7 +133,7 @@ function Combin_All() {
   ## 环球挑战赛(jd_global.js)
   export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal "MjNtTnVxbXJvMGlWTHc5Sm9kUXZ3VUM4R241aDFjblhybHhTWFYvQmZUOD0")
   ## 京东手机狂欢城(jd_carnivalcity.js)
-  export JD818_SHARECODES=$(Combin_Sub ForOtherCarnivalcity "5443fec1-7dbc-4d92-a09b-b7eb0a01199f")
+  export JD818_SHARECODES=$(Combin_Sub ForOtherCarnivalcity "5443fec1-7dbc-4d92-a09b-b7eb0a01199f@8c2a0d3a-b4d7-4bbf-bccc-4e7efc18f849")
   ## 城城分现金(jd_city.js)
   export CITY_SHARECODES=$(Combin_Sub ForOtherCity "RtGKzu6kEw-jeNeaENw73x4aTHtnmBBm8KSerYO5pD1jnXS9hg@RtGKiarVGFDwIvfzQpx5mlnLn7PlHH-WBmLyPXQ4GKO_uHvx@RtGKk6ndHkPCIcbCZKhumm2vdM7DL5DWnLF4QTmGxh_ezmKF")
 }
