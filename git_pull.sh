@@ -14,7 +14,8 @@ ShellDir=${JD_DIR:-$(
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts
-Scripts2Dir=${ShellDir}/scripts2
+Scripts2Dir=${ShellDir}/.scripts2
+oldScripts2Dir=${ShellDir}/scripts2
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConftemp=${ConfigDir}/config.sh.temp
@@ -79,6 +80,10 @@ function SourceUrl_Update {
   #  sed -i "s/url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
   #  sed -i "s/url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
   fi
+}
+
+fix_files() {
+    [ -d $oldScripts2Dir ] && rm -rf $oldScripts2Dir
 }
 
 ## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成。
@@ -489,6 +494,7 @@ echo -e ''
 echo -e "+-----------------------------------------------------------+"
 ## 检测配置文件链接
 SourceUrl_Update
+fix_files
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 Git_PullShell && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
