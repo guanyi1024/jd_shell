@@ -134,19 +134,17 @@ function Git_PullScripts {
 ## 克隆scripts2
 function Git_CloneScripts2 {
   echo -e "克隆shylocks脚本，原地址：${Scripts2URL}\n"
-  git clone -b master ${Scripts2URL} ${Scripts2Dir}
+  git clone -b master ${Scripts2URL} ${Scripts2Dir} >/dev/null 2>&1
   ExitStatusScripts2=$?
-  echo
 }
 
 ## 更新scripts2
 function Git_PullScripts2 {
   echo -e "更新shylocks脚本，原地址：${Scripts2URL}\n"
   cd ${Scripts2Dir}
-  git fetch --all
+  git fetch --all >/dev/null 2>&1
   ExitStatusScripts2=$?
-  git reset --hard origin/master
-  echo
+  git reset --hard origin/master >/dev/null 2>&1
 }
 
 ## 用户数量UserSum
