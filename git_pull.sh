@@ -6,7 +6,10 @@
 ## Version： v3.6.3
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
+ShellDir=${JD_DIR:-$(
+  cd $(dirname $0)
+  pwd
+)}
 [[ ${JD_DIR} ]] && ShellJd=${ShellDir}/jd.sh || ShellJd=${ShellDir}/jd.sh
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
@@ -43,43 +46,39 @@ else
   ShellURL=https://gitee.com/highdimen/jd_shell
 fi
 
-
 function SourceUrl_Update {
-if [ -s ${ScriptsDir}/.git/config ]; then
-    strAttttt=`grep "url" ${ScriptsDir}/.git/config`
+  if [ -s ${ScriptsDir}/.git/config ]; then
+    strAttttt=$(grep "url" ${ScriptsDir}/.git/config)
     strBttttt="highdimen"
-  if [[ $strAttttt =~ $strBttttt ]]
-    then
-    echo "1"
+    if [[ $strAttttt =~ $strBttttt ]]; then
+      echo "1"
     else
-    rm -rf ${ScriptsDir}
+      rm -rf ${ScriptsDir}
+    fi
   fi
-fi
 
-if [ -s ${Scripts2Dir}/.git/config ]; then
-    strAttttt=`grep "url" ${Scripts2Dir}/.git/config`
+  if [ -s ${Scripts2Dir}/.git/config ]; then
+    strAttttt=$(grep "url" ${Scripts2Dir}/.git/config)
     strBttttt="highdimen"
-  if [[ $strAttttt =~ $strBttttt ]]
-    then
-    echo "1"
+    if [[ $strAttttt =~ $strBttttt ]]; then
+      echo "1"
     else
-    rm -rf ${ScriptsDir}
+      rm -rf ${ScriptsDir}
+    fi
   fi
-fi
 
-  strAttttt=`grep "url" ${ShellDir}/.git/config`
+  strAttttt=$(grep "url" ${ShellDir}/.git/config)
   strBttttt="highdimen"
-if [[ $strAttttt =~ $strBttttt ]]
-  then
-  echo "3"
+  if [[ $strAttttt =~ $strBttttt ]]; then
+    echo "3"
   else
-  perl -i -pe "s|url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-  perl -i -pe "s|url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-  perl -i -pe "s|url \= http\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-  perl -i -pe "s|url \= http\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
-#  sed -i "s/url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
-#  sed -i "s/url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
-fi
+    perl -i -pe "s|url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
+    perl -i -pe "s|url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
+    perl -i -pe "s|url \= http\:\/\/github.com\/lan-tianxiang\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
+    perl -i -pe "s|url \= http\:\/\/gitee.com\/tianxiang-lan\/jd_shell|url \= https\:\/\/gitee.com\/highdimen\/jd_shell|g" ${ShellDir}/.git/config
+  #  sed -i "s/url \= https\:\/\/github.com\/lan-tianxiang\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
+  #  sed -i "s/url \= https\:\/\/gitee.com\/tianxiang-lan\/jd_shell/url \= https\:\/\/gitee.com\/highdimen\/jd_shell/g" ${ShellDir}/.git/config
+  fi
 }
 
 ## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成。
@@ -100,7 +99,7 @@ function Update_Cron() {
     done
     perl -i -pe "s|.+(bash.+git_pull.+log.*)|${RanMin} ${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
     perl -i -pe "s|5 7,23 19-25 2 .* (.+jd_nzmh\W*.*)|5 7,23 19-25 2 * bash \1|" ${ListCron} # 紧急修复错误的cron
-    perl -i -pe "s|30 8-20/4(.+jd_nian\W*.*)|28 8-20/4,21\1|" ${ListCron} # 修改默认错误的cron
+    perl -i -pe "s|30 8-20/4(.+jd_nian\W*.*)|28 8-20/4,21\1|" ${ListCron}                    # 修改默认错误的cron
     crontab ${ListCron}
   fi
 }
@@ -113,7 +112,6 @@ function Git_PullShell {
   ExitStatusShell=$?
   git reset --hard origin/v3
 }
-
 
 ## 克隆scripts
 function Git_CloneScripts {
@@ -167,8 +165,7 @@ function Count_UserSum {
 function Change_JoyRunPins {
   j=${UserSum}
   PinALL=""
-  while [[ $j -ge 1 ]]
-  do
+  while [[ $j -ge 1 ]]; do
     Tmp=Cookie$j
     CookieTemp=${!Tmp}
     PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|; s|%|\\\x|g}")
@@ -200,15 +197,14 @@ function Change_ALL {
 ## js-drop.list 如果上述检测文件删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    if [ -n "${JD_DIR}" ]
-    then
-      grep -E " j[drx]_\w+" ${ListCron} | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort > ${ListTask}
+    if [ -n "${JD_DIR}" ]; then
+      grep -E " j[drx]_\w+" ${ListCron} | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort >${ListTask}
     else
-      grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort > ${ListTask}
+      grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort >${ListTask}
     fi
-    cat ${ListCronLxk} ${ListCronShylocks} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort > ${ListJs}
-    grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
-    grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
+    cat ${ListCronLxk} ${ListCronShylocks} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort >${ListJs}
+    grep -vwf ${ListTask} ${ListJs} >${ListJsAdd}
+    grep -vwf ${ListJs} ${ListTask} >${ListJsDrop}
   else
     echo -e "${ListCron} 文件不存在，请先定义你自己的crontab.list...\n"
   fi
@@ -261,11 +257,9 @@ function Notify_Version {
 
 ## npm install 子程序，判断是否为安卓，判断是否安装有yarn
 function Npm_InstallSub {
-  if [ -n "${isTermux}" ]
-  then
+  if [ -n "${isTermux}" ]; then
     npm install --no-bin-links || npm install --no-bin-links --registry=https://registry.npm.taobao.org
-  elif ! type yarn >/dev/null 2>&1
-  then
+  elif ! type yarn >/dev/null 2>&1; then
     npm install || npm install --registry=https://registry.npm.taobao.org
   else
     echo -e "检测到本机安装了 yarn，使用 yarn 替代 npm...\n"
@@ -331,8 +325,7 @@ function Del_Cron {
     cat ${ListJsDrop}
     echo
     JsDrop=$(cat ${ListJsDrop})
-    for Cron in ${JsDrop}
-    do
+    for Cron in ${JsDrop}; do
       perl -i -ne "{print unless / ${Cron}( |$)/}" ${ListCron}
     done
     crontab ${ListCron}
@@ -340,7 +333,7 @@ function Del_Cron {
     crontab -l
     echo -e "\n--------------------------------------------------------------\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
-      echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}\n\n脚本地址：${ShellURL}" > ${ContentDropTask}
+      echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}\n\n脚本地址：${ShellURL}" >${ContentDropTask}
       Notify_DropTask
     fi
   fi
@@ -357,36 +350,32 @@ function Add_Cron {
     echo
     JsAdd=$(cat ${ListJsAdd})
 
-    for Cron in ${JsAdd}
-    do
-      if [[ ${Cron} == jd_bean_sign ]]
-      then
-        echo "4 0,9 * * * bash ${ShellJd} ${Cron}" >> ${ListCron}
+    for Cron in ${JsAdd}; do
+      if [[ ${Cron} == jd_bean_sign ]]; then
+        echo "4 0,9 * * * bash ${ShellJd} ${Cron}" >>${ListCron}
       else
-        cat ${ListCronLxk} ${ListCronShylocks} | grep -E "\/${Cron}\." | perl -pe "s|(^.+)node */scripts/(j[drx]_\w+)\.js.+|\1bash ${ShellJd} \2|" >> ${ListCron}
+        cat ${ListCronLxk} ${ListCronShylocks} | grep -E "\/${Cron}\." | perl -pe "s|(^.+)node */scripts/(j[drx]_\w+)\.js.+|\1bash ${ShellJd} \2|" >>${ListCron}
       fi
     done
 
-    if [ $? -eq 0 ]
-    then
+    if [ $? -eq 0 ]; then
       crontab ${ListCron}
       echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
       crontab -l
       echo -e "\n--------------------------------------------------------------\n"
       if [ -d ${ScriptsDir}/node_modules ]; then
-        echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}\n\n脚本地址：${ShellURL}" > ${ContentNewTask}
+        echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}\n\n脚本地址：${ShellURL}" >${ContentNewTask}
         Notify_NewTask
       fi
     else
       echo -e "添加新的定时任务出错，请手动添加...\n"
       if [ -d ${ScriptsDir}/node_modules ]; then
-        echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > ${ContentNewTask}
+        echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" >${ContentNewTask}
         Notify_NewTask
       fi
     fi
   fi
 }
-
 
 ## 自定义脚本功能
 function ExtraShell() {
@@ -506,8 +495,7 @@ SourceUrl_Update
 Git_PullShell && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-if [ ${ExitStatusShell} -eq 0 ]
-then
+if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "\nshell脚本更新完成...\n"
   if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
     cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
@@ -524,6 +512,7 @@ if [ ${ExitStatusShell} -eq 0 ]; then
   #测试自写脚本
   [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
   cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
+  cp -rf ${Scripts2Dir}/sendNotify.js ${ScriptsDir}/sendNotify.js
 fi
 
 ## 执行各函数
@@ -547,5 +536,5 @@ fi
 
 ## 清除配置缓存
 [ -f ${FileConftemp} ] && rm -rf ${FileConftemp}
-cp -rf ${Scripts2Dir}/sendNotify.js ${ScriptsDir}/sendNotify.js
+
 echo -e "脚本目录：${ShellDir}"
