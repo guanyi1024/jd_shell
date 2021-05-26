@@ -180,16 +180,17 @@ function Random_Delay() {
 ## 使用说明
 function Help() {
   echo -e "本脚本的用法为："
-  echo -e "1. bash ${HelpJd} jd_xxx       # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数"
-  echo -e "2. bash ${HelpJd} jd_xxx now   # 无论是否设置了随机延迟，均立即运行"
-  echo -e "3. bash ${HelpJd} hangup    # 重启挂机程序"
-  echo -e "4. bash ${HelpJd} panelon   # 开启控制面板"
-  echo -e "5. bash ${HelpJd} paneloff  # 关闭控制面板"
-  echo -e "5. bash ${HelpJd} panelinfo # 控制面板状态"
-  echo -e "5. bash ${HelpJd} panelud # 更新面板(不丢失数据)"
-  echo -e "6 bash ${HelpJd} resetpwd   # 重置控制面板用户名和密码"
-  echo -e "7. bash ${HelpJd} shellon   # 开启shell面板"
-  echo -e "8. bash ${HelpJd} shelloff  # 关闭shell面板"
+  echo -e "bash ${HelpJd} jd_xxx       # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数"
+  echo -e "bash ${HelpJd} jd_xxx now   # 无论是否设置了随机延迟，均立即运行"
+  echo -e "bash ${HelpJd} hangup    # 重启挂机程序"
+  echo -e "bash ${HelpJd} panelon   # 开启控制面板"
+  echo -e "bash ${HelpJd} paneloff  # 关闭控制面板"
+  echo -e "bash ${HelpJd} panelinfo # 控制面板状态"
+  echo -e "bash ${HelpJd} panelud # 更新面板(不丢失数据)"
+  echo -e "bash ${HelpJd} resetpwd   # 重置控制面板用户名和密码"
+  echo -e "bash ${HelpJd} shellon   # 开启shell面板"
+  echo -e "bash ${HelpJd} shelloff  # 关闭shell面板"
+  echo
   cd ${ScriptsDir}
   for ((i = 0; i < ${#ListScripts[*]}; i++)); do
     Name=$(grep "new Env" ${ListScripts[i]} | awk -F "'|\"" '{print $2}')
