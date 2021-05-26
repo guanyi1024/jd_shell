@@ -137,7 +137,7 @@ function Combin_All() {
   ## 城城分现金(jd_city.js)
   export CITY_SHARECODES=$(Combin_Sub ForOtherCity "RtGKzu6kEw-jeNeaENw73x4aTHtnmBBm8KSerYO5pD1jnXS9hg@RtGKiarVGFDwIvfzQpx5mlnLn7PlHH-WBmLyPXQ4GKO_uHvx@RtGKk6ndHkPCIcbCZKhumm2vdM7DL5DWnLF4QTmGxh_ezmKF")
   ## 618动物联萌(jd_zoo.js)
-  export ZOO_SHARECODES=$(Combin_Sub ForOtherZoo )
+  export ZOO_SHARECODES=$(Combin_Sub ForOtherZoo)
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE

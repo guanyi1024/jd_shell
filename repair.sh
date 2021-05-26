@@ -6,7 +6,10 @@
 ## Version： v0.0.2
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
+ShellDir=${JD_DIR:-$(
+  cd $(dirname $0)
+  pwd
+)}
 [[ ${JD_DIR} ]] && ShellJd=jd || ShellJd=${ShellDir}/jd.sh
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
@@ -37,35 +40,37 @@ bash ${ShellDir}/jd.sh paneloff
 rm -rf ${ShellDir}
 cd $(dirname ${ShellDir})
 
-ShellDir_t=$(cd "$(dirname "$0")";pwd)
+ShellDir_t=$(
+  cd "$(dirname "$0")"
+  pwd
+)
 ShellName_t=$0
 JdDir_t=${ShellDir_t}/jd
 
 function REINSTALLATION() {
-echo -e "\n1. 获取源码"
-[ -d ${JdDir_t} ] && mv ${JdDir_t} ${JdDir_t}.bak && echo "检测到已有 ${JdDir_t} 目录，已备份为 ${JdDir_t}.bak"
-git clone -b v3 https://gitee.com/tianxiang-lan/jd_shell ${JdDir_t}
+  echo -e "\n1. 获取源码"
+  [ -d ${JdDir_t} ] && mv ${JdDir_t} ${JdDir_t}.bak && echo "检测到已有 ${JdDir_t} 目录，已备份为 ${JdDir_t}.bak"
+  git clone -b v3 https://gitee.com/tianxiang-lan/jd_shell ${JdDir_t}
 
-echo -e "\n2. 检查配置文件"
+  echo -e "\n2. 检查配置文件"
 
-[ ! -d ${JdDir_t}/config ] && mkdir -p ${JdDir_t}/config
+  [ ! -d ${JdDir_t}/config ] && mkdir -p ${JdDir_t}/config
 
-if [ ! -s ${JdDir_t}/config/crontab.list ]
-then
-  cp -fv ${JdDir_t}/sample/crontab.list.sample ${JdDir_t}/config/crontab.list
-  sed -i "s,MY_PATH,${JdDir_t},g" ${JdDir_t}/config/crontab.list
-  sed -i "s,ENV_PATH=,PATH=$PATH,g" ${JdDir_t}/config/crontab.list
-fi
+  if [ ! -s ${JdDir_t}/config/crontab.list ]; then
+    cp -fv ${JdDir_t}/sample/crontab.list.sample ${JdDir_t}/config/crontab.list
+    sed -i "s,MY_PATH,${JdDir_t},g" ${JdDir_t}/config/crontab.list
+    sed -i "s,ENV_PATH=,PATH=$PATH,g" ${JdDir_t}/config/crontab.list
+  fi
 
-crontab ${JdDir_t}/config/crontab.list
+  crontab ${JdDir_t}/config/crontab.list
 
-[ -f $(dirname ${ShellDir})/config.sh ] && cp $(dirname ${ShellDir})/config.sh ${ConfigDir}/config.sh && rm -rf $(dirname ${ShellDir})/config.sh
-[ ! -s ${JdDir_t}/config/config.sh ] && cp -fv ${JdDir_t}/sample/config.sh.sample ${JdDir_t}/config/config.sh
+  [ -f $(dirname ${ShellDir})/config.sh ] && cp $(dirname ${ShellDir})/config.sh ${ConfigDir}/config.sh && rm -rf $(dirname ${ShellDir})/config.sh
+  [ ! -s ${JdDir_t}/config/config.sh ] && cp -fv ${JdDir_t}/sample/config.sh.sample ${JdDir_t}/config/config.sh
 
-echo -e "\n3. 执行 git_pull.sh 进行脚本更新以及定时文件更新"
-bash ${JdDir_t}/git_pull.sh
+  echo -e "\n3. 执行 git_pull.sh 进行脚本更新以及定时文件更新"
+  bash ${JdDir_t}/git_pull.sh
 
-echo -e "\n修复完成！！！！"
+  echo -e "\n修复完成！！！！"
 }
 
 REINSTALLATION
