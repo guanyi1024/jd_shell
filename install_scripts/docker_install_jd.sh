@@ -198,7 +198,7 @@ if [ $NewImage = true ]; then
     if [ $HasImage = true ]; then
         docker stop jd
         docker rm jd
-        docker rmi $(docker images jd -q)
+        docker rmi $(docker images lantianxiang1/jd_shell -q)
         # docker image rm -f $DockerImage
     fi
     if [ $GetImageType = "Local" ]; then
